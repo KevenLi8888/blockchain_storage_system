@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option go_package = "../pro";
+
+message Header {
+  uint32 version = 1;
+  string previous_hash = 2;
+  string merkle_root = 3;
+  string difficulty_target = 4;
+  uint32 nonce = 5;
+  uint32 timestamp = 6;
+}
+
+message TransactionInput {
+  string reference_transaction_hash = 1;
+  uint32 output_index = 2;
+  string unlocking_script = 3;
+}
+
+message TransactionOutput {
+  uint32 amount = 1;
+  string locking_script = 2;
+}
+
+message Transaction {
+  uint32 version = 1;
+  repeated TransactionInput inputs = 2;
+  repeated TransactionOutput outputs = 3;
+  uint32 lock_time = 4;
+}
+
+message Block {
+  Header header = 1;
+  repeated Transaction transactions = 2;
+}
+
+message BlockRecord {
+  Header header = 1;
+  uint32 height = 2;
+  uint32 number_of_transactions = 3;
+
+  string block_file = 4;
+  uint32 block_start_offset = 5;
+  uint32 block_end_offset = 6;
+
+  string undo_file = 7;
+  uint32 undo_start_offset = 8;
+  uint32 undo_end_offset = 9;
+}
+
+message CoinRecord {
+  uint32 version = 1;
+  repeated uint32 output_indexes = 2;
+  repeated uint32 amounts = 3;
+  repeated string locking_scripts = 4;
+}
+
+message UndoBlock {
+  repeated string transaction_input_hashes = 1;
+  repeated uint32 output_indexes = 2;
+  repeated uint32 amounts = 3;
+  repeated string locking_scripts = 4;
+}
